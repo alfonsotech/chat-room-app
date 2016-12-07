@@ -10,31 +10,41 @@
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      #messages li { padding: 5px 10px; margin: 50px;}
+      #messages li:nth-last-child(odd) { background: #eee; }
     </style>
   </head>
   <body>
     <ul id="messages">
-    <i class="em em-cat"></i>
     </ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
-<script>
-<script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   var socket = io();
+  var textMessage;
   $('form').submit(function(){
     socket.emit('chat message', $('#m').val());
+    textMessage = $('#m').val();
+    console.log(textMessage);
     $('#m').val('');
     return false;
   });
   socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
+    $('#messages').append('<li class="' + selectedEmoji + '">' + textMessage + '</li><br>');
+    // $('#messages').append($('<li>').text(msg));
+    // '<li class="' +  selectedEmoji  + '">' + msg.val() + '</li>'
   });
+</script>
+<script>
+const emoji = ['em em-kissing_cat', 'em em-pouting_cat', 'em em-smile_cat', 'em em-smirk_cat', 'em em-joy_cat'];
+var randomIndex = Math.floor(Math.random() * 5);
+console.log(randomIndex);
+var selectedEmoji = emoji[randomIndex];
+console.log(selectedEmoji);
+// $('i').removeClassName('em em-cat', emoji[i]);
 </script>
   </body>
 </html>
